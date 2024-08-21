@@ -29,6 +29,6 @@ public class UserController {
     @PostMapping
     public String createUser(@ModelAttribute User user){
         userService.createUser(user);
-        return "redirect:/users/create"; //redirecting to the form page again(its temporary)
+        return "redirect:/"; //redirecting to the home page(its temporary)
     }
 }

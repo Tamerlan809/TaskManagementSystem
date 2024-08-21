@@ -39,6 +39,6 @@ public class TaskController {
     @PostMapping
     public String createTask(@ModelAttribute Task task){
         Task savedTask = taskService.createTask(task);
-        return "redirect:/tasks/create"; //Redirecting to task form page again(Temporary)
+        return "redirect:/"; //Redirecting to home page(Temporary)
     }
 }
