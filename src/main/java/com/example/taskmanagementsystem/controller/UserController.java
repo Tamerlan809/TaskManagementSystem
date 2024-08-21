@@ -2,16 +2,14 @@ package com.example.taskmanagementsystem.controller;
 
 import com.example.taskmanagementsystem.entity.User;
 import com.example.taskmanagementsystem.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("api/users")
+@Controller
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -20,9 +18,17 @@ public class UserController {
         this.userService = userService;
     }
 
+    //Method to show form
+    @GetMapping("/create")
+    public String showCreateUserForm(Model model){
+        model.addAttribute("user", new User());
+        return "createUser.html"; //Thymeleaf template name
+    }
+
+    //Method to handle form
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user){
-        User savedUser = userService.createUser(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    public String createUser(@ModelAttribute User user){
+        userService.createUser(user);
+        return "redirect:/users/create"; //redirecting to the form page again(its temporary)
     }
 }

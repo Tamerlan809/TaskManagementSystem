@@ -1,6 +1,7 @@
 package com.example.taskmanagementsystem.entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -23,6 +24,7 @@ public class Task {
 
     @Column(name = "due_date")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dueDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
