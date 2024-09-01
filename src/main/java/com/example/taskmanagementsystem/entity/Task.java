@@ -1,5 +1,7 @@
 package com.example.taskmanagementsystem.entity;
 
+import com.example.taskmanagementsystem.enums.Priority;
+import com.example.taskmanagementsystem.enums.Status;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,8 +21,13 @@ public class Task {
     @Column(nullable = false,length = 1000)
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;
+    private Status status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Priority priority;
 
     @Column(name = "due_date")
     @Temporal(TemporalType.DATE)
@@ -55,12 +62,20 @@ public class Task {
         this.description = description;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 
     public Date getDueDate() {

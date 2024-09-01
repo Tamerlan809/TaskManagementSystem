@@ -29,28 +29,41 @@
             <label for="title">Title:</label>
             <input type="text" id="title" th:field="*{title}" class="form-control" placeholder="Enter task title" required>
             <div class="invalid-feedback">
-                Please provide a title.
+                Provide a title.
             </div>
         </div>
         <div class="form-group">
             <label for="description">Description:</label>
             <textarea id="description" th:field="*{description}" class="form-control" placeholder="Enter task description" required></textarea>
             <div class="invalid-feedback">
-                Please provide a description.
+                Provide a description.
             </div>
         </div>
         <div class="form-group">
             <label for="status">Status:</label>
-            <input type="text" id="status" th:field="*{status}" class="form-control" placeholder="Enter task status" required>
+            <select id="status" th:field="*{status}" class="form-control" required>
+                <option value="" disabled selected>Select status</option>
+                <option th:each="status : ${T(com.example.taskmanagementsystem.enums.Status).values()}" th:value="${status}" th:text="${status}">Status</option>
+            </select>
             <div class="invalid-feedback">
-                Please provide a status.
+                Provide a status.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="priority">Priority:</label>
+            <select id="priority" th:field="*{priority}" class="form-control" required>
+                <option value="" disabled selected>Select priority</option>
+                <option th:each="priority : ${T(com.example.taskmanagementsystem.enums.Priority).values()}" th:value="${priority}" th:text="${priority}">Priority</option>
+            </select>
+            <div class="invalid-feedback">
+                Select a priority.
             </div>
         </div>
         <div class="form-group">
             <label for="dueDate">Due Date:</label>
             <input type="date" id="dueDate" th:field="*{dueDate}" class="form-control" required>
             <div class="invalid-feedback">
-                Please provide a due date.
+                Provide a due date.
             </div>
         </div>
         <div class="form-group">
@@ -60,7 +73,7 @@
                 <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}">User</option>
             </select>
             <div class="invalid-feedback">
-                Please select a user.
+                Select a user.
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Create Task</button>
