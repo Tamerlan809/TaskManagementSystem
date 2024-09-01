@@ -56,4 +56,22 @@ public class TaskController {
         taskService.deleteTaskById(id);
         return "redirect:/tasks/dashboard";
     }
+
+    //Method to show edit task form
+    @GetMapping("/edit/{id}")
+    public String showEditTaskForm(@PathVariable Long id, Model model){
+        Task task = taskService.findTaskById(id);
+        List<User> users = userService.findAllUsers();
+        model.addAttribute("task", task);
+        model.addAttribute("users", users);
+        return "editTask.html";
+    }
+
+    //Method to save edited task
+    @PostMapping("/edit/{id}")
+    public String editTask(@PathVariable Long id,
+                           @ModelAttribute Task task){
+        taskService.updateTask(id, task);
+        return "redirect:/tasks/dashboard";
+    }
 }
