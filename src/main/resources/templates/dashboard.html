@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Task Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .card-columns {
+            column-count: 3;
+        }
+    </style>
 </head>
 <body>
 
@@ -17,8 +24,8 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item" sec:authorize="isAnonymous()">
-                    <a class="nav-link" href="/users/create">REGISTER</a>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" href="/tasks/create">POST TASK</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -33,26 +40,24 @@
 </nav>
 
 <div class="container mt-5">
-    <h1>Login</h1>
-    <form th:action="@{/login}" method="post" class="needs-validation" novalidate>
-        <div class="form-group">
-            <label for="username">Email:</label>
-            <input type="email" id="username" name="username" class="form-control" placeholder="Enter email" required>
-            <div class="invalid-feedback">
-                Provide a valid email.
+    <h1>Task Dashboard</h1>
+    <div class="card-columns">
+        <div class="card mb-4" th:each="task : ${tasks}">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${task.title}">Task Title</h5>
+                <p class="card-text" th:text="${task.description}">Task Description</p>
+                <p class="card-text">
+                    <strong>Due Date:</strong> <span th:text="${#dates.format(task.dueDate, 'MMM dd, yyyy')}"></span><br>
+                    <strong>Employee:</strong> <span th:text="${task.user != null ? task.user.username : 'Unassigned'}"></span><br>
+                    <strong>Priority:</strong> <span th:text="${task.priority}"></span><br>
+                    <strong>Status:</strong> <span th:text="${task.status}"></span>
+                </p>
             </div>
         </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
-            <div class="invalid-feedback">
-                Provide a password.
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
+    </div>
 </div>
 
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

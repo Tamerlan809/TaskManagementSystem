@@ -41,4 +41,12 @@ public class TaskController {
         Task savedTask = taskService.createTask(task);
         return "redirect:/"; //Redirecting to home page(Temporary)
     }
+
+    //Method to display tasks to dashboard
+    @GetMapping("/dashboard")
+    public String showDashboard(Model model){
+        List<Task> tasks = taskService.findAllTask(); //fetches all tasks
+        model.addAttribute("tasks", tasks);
+        return "dashboard.html";
+    }
 }
