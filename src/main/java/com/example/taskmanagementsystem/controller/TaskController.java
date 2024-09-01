@@ -49,4 +49,11 @@ public class TaskController {
         model.addAttribute("tasks", tasks);
         return "dashboard.html";
     }
+
+    //Method to delete a task
+    @GetMapping("/delete/{id}")
+    public String deleteTask(@PathVariable Long id){
+        taskService.deleteTaskById(id);
+        return "redirect:/tasks/dashboard";
+    }
 }

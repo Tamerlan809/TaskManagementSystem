@@ -10,6 +10,10 @@
         .card-columns {
             column-count: 3;
         }
+        .card-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
     </style>
 </head>
 <body>
@@ -47,17 +51,20 @@
                 <h5 class="card-title" th:text="${task.title}">Task Title</h5>
                 <p class="card-text" th:text="${task.description}">Task Description</p>
                 <p class="card-text">
-                    <strong>Due Date:</strong> <span th:text="${#dates.format(task.dueDate, 'MMM dd, yyyy')}"></span><br>
+                    <strong>Due Date:</strong> <span th:text="${#dates.format(task.dueDate, 'dd-MM-yyyy')}"></span><br>
                     <strong>Employee:</strong> <span th:text="${task.user != null ? task.user.username : 'Unassigned'}"></span><br>
                     <strong>Priority:</strong> <span th:text="${task.priority}"></span><br>
                     <strong>Status:</strong> <span th:text="${task.status}"></span>
                 </p>
             </div>
+            <div class="card-footer">
+                <a href="#" th:href="@{/tasks/delete/{id}(id=${task.id})}" class="btn btn-link text-danger"><i class="fas fa-trash-alt"></i></a>
+            </div>
         </div>
     </div>
 </div>
 
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
