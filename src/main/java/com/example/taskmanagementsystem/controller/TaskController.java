@@ -39,7 +39,7 @@ public class TaskController {
     @PostMapping
     public String createTask(@ModelAttribute Task task){
         Task savedTask = taskService.createTask(task);
-        return "redirect:/"; //Redirecting to home page(Temporary)
+        return "redirect:/tasks/dashboard"; //Redirecting to home page(Temporary)
     }
 
     //Method to display tasks to dashboard
