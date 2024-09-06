@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +30,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         Role employeeRole = roleRepository.findByName("EMPLOYEE");
-        user.setRoles(Set.of(employeeRole));
+        user.setRoles(new HashSet<>(Arrays.asList(employeeRole)));
 
         return userRepository.save(user);
     }
@@ -53,12 +55,18 @@ public class UserService {
         return roleRepository.findById(id).orElse(null);
     }
 
-    public void updateUserWithRole(User user, Long roleId){
-        Role selectedRole = roleRepository.findById(roleId).orElse(null);
-        if (selectedRole != null){
-            user.setRoles(Set.of(selectedRole));
+    public void updateUserWithRole(Long id, User updatedUser, Long roleId){
+        User existingUser = userRepository.findById(id).orElse(null);
+        if (existingUser != null){
+            existingUser.setUsername(updatedUser.getUsername());
+            existingUser.setEmail(updatedUser.getEmail());
+
+            Role selectedRole = roleRepository.findById(roleId).orElse(null);
+            if (selectedRole != null){
+                existingUser.setRoles(new HashSet<>(Arrays.asList(selectedRole)));
+            }
         }
 
-        userRepository.save(user);
+        userRepository.save(existingUser);
     }
 }

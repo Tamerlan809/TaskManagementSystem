@@ -61,14 +61,9 @@ public class UserController {
     }
 
     //Method to get editUser.html
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/edit/{id}")
     public String showEditUserForm(@PathVariable Long id, Model model){
         User user = userService.findUserById(id);
-        if (user == null){
-            return "redirect:/users/list";
-        }
-
         List<Role> roles = userService.findAllRoles();
         model.addAttribute("user", user);
         model.addAttribute("roles", roles);
@@ -76,10 +71,11 @@ public class UserController {
     }
 
     //Method to update edited user to database
-    @PostMapping("/edit")
-    public String editUser(@ModelAttribute User user,
+    @PostMapping("/edit/{id}")
+    public String editUser(@PathVariable Long id,
+                           @ModelAttribute User user,
                            @RequestParam("roleId") Long roleId){
-        userService.updateUserWithRole(user, roleId);
+        userService.updateUserWithRole(id, user, roleId);
         return "redirect:/users/list";
     }
 }
