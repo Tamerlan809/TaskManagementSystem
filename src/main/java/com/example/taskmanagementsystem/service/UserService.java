@@ -40,4 +40,25 @@ public class UserService {
     public void deleteUserById(Long id){
         userRepository.deleteById(id);
     }
+
+    public User findUserById(Long id){
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public List<Role> findAllRoles(){
+        return roleRepository.findAll();
+    }
+
+    public Role findRoleById(Long id){
+        return roleRepository.findById(id).orElse(null);
+    }
+
+    public void updateUserWithRole(User user, Long roleId){
+        Role selectedRole = roleRepository.findById(roleId).orElse(null);
+        if (selectedRole != null){
+            user.setRoles(Set.of(selectedRole));
+        }
+
+        userRepository.save(user);
+    }
 }

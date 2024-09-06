@@ -53,9 +53,33 @@ public class UserController {
         return "showUsers.html";
     }
 
+    //Method to delete user
     @GetMapping("delete/{id}")
     public String deleteUser(@PathVariable Long id){
         userService.deleteUserById(id);
+        return "redirect:/users/list";
+    }
+
+    //Method to get editUser.html
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/edit/{id}")
+    public String showEditUserForm(@PathVariable Long id, Model model){
+        User user = userService.findUserById(id);
+        if (user == null){
+            return "redirect:/users/list";
+        }
+
+        List<Role> roles = userService.findAllRoles();
+        model.addAttribute("user", user);
+        model.addAttribute("roles", roles);
+        return "editUser.html";
+    }
+
+    //Method to update edited user to database
+    @PostMapping("/edit")
+    public String editUser(@ModelAttribute User user,
+                           @RequestParam("roleId") Long roleId){
+        userService.updateUserWithRole(user, roleId);
         return "redirect:/users/list";
     }
 }
