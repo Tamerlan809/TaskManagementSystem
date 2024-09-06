@@ -50,6 +50,12 @@ public class UserController {
             user.setRoleNames(roles);
         });
         model.addAttribute("users", users);
-        return "editUsers.html";
+        return "showUsers.html";
+    }
+
+    @GetMapping("delete/{id}")
+    public String deleteUser(@PathVariable Long id){
+        userService.deleteUserById(id);
+        return "redirect:/users/list";
     }
 }
