@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: agayev
+      MYSQL_DATABASE: task_management_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - springboot-network
+
+  springboot-app:
+    build: .
+    container_name: springboot-container
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/task_management_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=agayev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+    networks:
+      - springboot-network
+
+volumes:
+  mysql_data:
+
+networks:
+  springboot-network:
+    driver: bridge
